@@ -1,0 +1,23 @@
+{
+  "name": "lxu",
+  "version": "0.0.1",
+  "description": "LinuX Utilities",
+  "main": "lib/main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/loveencounterflow/lxu.git"
+  },
+  "keywords": [
+    "linux",
+    "utilities"
+  ],
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/loveencounterflow/lxu/issues"
+  },
+  "homepage": "https://github.com/loveencounterflow/lxu#readme"
+}
