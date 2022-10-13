@@ -24,7 +24,9 @@ GUY                       = require 'guy'
 { Moonriver }             = require 'moonriver'
 { $ }                     = Moonriver
 PATH                      = require 'node:path'
-dayjs                     = require 'dayjs'
+FS                        = require 'node:fs'
+DAYJS                     = require 'dayjs'
+read_from_stdin           = not process.stdin.isTTY
 
 #-----------------------------------------------------------------------------------------------------------
 demo = ->
@@ -33,33 +35,44 @@ demo = ->
   first     = Symbol 'first'
   last      = Symbol 'last'
   #.........................................................................................................
-  path    = PATH.join __dirname, '../../../.zsh_history'
-  source  = GUY.fs.walk_lines path
-  mr.push source
-  mr.push ( line, send ) -> send { lnr: @call_count, line, }
-  mr.push ( d, send ) ->
+  # mr.push show              = ( line ) -> whisper rpr line
+  #.........................................................................................................
+  mr.push convert_to_object = ( line, send ) -> send { lnr: @call_count, line, }
+  #.........................................................................................................
+  mr.push parse_line        = ( d, send ) ->
     return send d unless ( match = d.line.match /^:\s+(?<timestamp>\d+):\d+;(?<cmd>.*$)/ )?
     send { d..., match.groups..., }
-  mr.push ( d, send ) ->
+  #.........................................................................................................
+  mr.push parse_timestamp   = ( d, send ) ->
     return send d unless d.timestamp?
-    send { d..., date: ( ( dayjs.unix d.timestamp ).format 'YYYY-MM-DD HH:mm' ) }
-  # mr.push ( d, send ) ->
-  #   return send.exit() if d.lnr > 10
-  #   send d
-  # mr.push $ { first, }, ( d, send ) ->
-  #   return send 'first!' if d is first
-  #   send d
-  # mr.push $ { last, }, ( d, send ) ->
-  #   return send d unless d is last
-  #   send 'last!'
-  # mr.push show = ( d ) -> help @call_count, GUY.trm.blue GUY.trm.reverse " #{rpr d} "
-  mr.push show = ( d ) -> echo ( GUY.trm.gold d.date ), GUY.trm.white d.cmd
-  mr.drive()
+    send { d..., date: ( ( DAYJS.unix d.timestamp ).format 'YYYY-MM-DD HH:mm' ) }
+  #.........................................................................................................
+  mr.push show              = ( d ) ->
+    echo ( GUY.trm.steel d.lnr ), ( GUY.trm.gold d.date ), GUY.trm.white d.cmd
+  #.........................................................................................................
+  if read_from_stdin
+    source  = process.stdin
+    { readlines }   = require 'readlines-ng'
+    #.......................................................................................................
+    count         = 0
+    for await line from readlines process.stdin
+      count++
+      # continue if count > 5
+      mr.send line
+      ### to achieve interleaving of data ingestion steps and data processing steps use `sleep 0`; ###
+      await GUY.async.sleep 0
+  #.........................................................................................................
+  else
+    ### TAINT get path from process.argv ###
+    path    = PATH.join __dirname, '../../../.zsh_history'
+    source  = GUY.fs.walk_lines path
+  # #.........................................................................................................
+  # mr.drive()
+  #.........................................................................................................
   return null
 
 
 
 ############################################################################################################
 if module is require.main then do =>
-  demo()
-
+  await demo()
