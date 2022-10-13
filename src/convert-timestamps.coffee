@@ -23,39 +23,38 @@ GUY                       = require 'guy'
   log     }               = GUY.trm
 { Moonriver }             = require 'moonriver'
 { $ }                     = Moonriver
-
+PATH                      = require 'node:path'
+dayjs                     = require 'dayjs'
 
 #-----------------------------------------------------------------------------------------------------------
 demo = ->
   collector = []
-
-#-----------------------------------------------------------------------------------------------------------
-demo_7 = ->
-  collector = []
-  mr1       = new Moonriver()
+  mr        = new Moonriver()
   first     = Symbol 'first'
   last      = Symbol 'last'
   #.........................................................................................................
-  source = mr1.push Array.from 'abcdef'
-  mr1.push $ { first, }, ( d, send ) ->
-    # debug '^348-1^', @
-    # debug '^348-2^', rpr d
-    return send 'first!' if d is first
-    send d.toUpperCase()
-  # mr1.push show = ( d ) -> help @, @call_count, CND.grey CND.reverse " #{rpr d} "
-  mr1.push $ { last, }, ( d, send ) ->
-    # debug '^348-3^', @
-    # debug '^348-4^', rpr d
-    return send "(#{d})" unless d is last
-    send 'last!'
-  mr1.push Array.from 'uvwxyz'
-  mr1.push show = ( d ) -> help @, @call_count, CND.grey CND.reverse " #{rpr d} "
-  #.........................................................................................................
-  mr1.push collect  = ( d ) -> collector.push d
-  #.........................................................................................................
-  urge '^343-5^', mr1
-  mr1.drive { mode: 'breadth', }
-  urge '^343-3^', ( d.toString() for d in collector ).join ' '
+  path    = PATH.join __dirname, '../../../.zsh_history'
+  source  = GUY.fs.walk_lines path
+  mr.push source
+  mr.push ( line, send ) -> send { lnr: @call_count, line, }
+  mr.push ( d, send ) ->
+    return send d unless ( match = d.line.match /^:\s+(?<timestamp>\d+):\d+;(?<cmd>.*$)/ )?
+    send { d..., match.groups..., }
+  mr.push ( d, send ) ->
+    return send d unless d.timestamp?
+    send { d..., date: ( ( dayjs.unix d.timestamp ).format 'YYYY-MM-DD HH:mm' ) }
+  # mr.push ( d, send ) ->
+  #   return send.exit() if d.lnr > 10
+  #   send d
+  # mr.push $ { first, }, ( d, send ) ->
+  #   return send 'first!' if d is first
+  #   send d
+  # mr.push $ { last, }, ( d, send ) ->
+  #   return send d unless d is last
+  #   send 'last!'
+  # mr.push show = ( d ) -> help @call_count, GUY.trm.blue GUY.trm.reverse " #{rpr d} "
+  mr.push show = ( d ) -> echo ( GUY.trm.gold d.date ), GUY.trm.white d.cmd
+  mr.drive()
   return null
 
 
