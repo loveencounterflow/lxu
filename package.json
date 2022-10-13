@@ -19,5 +19,9 @@
   "bugs": {
     "url": "https://github.com/loveencounterflow/lxu/issues"
   },
-  "homepage": "https://github.com/loveencounterflow/lxu#readme"
+  "homepage": "https://github.com/loveencounterflow/lxu#readme",
+  "dependencies": {
+    "guy": "^11.10.1",
+    "moonriver": "^1.1.1"
+  }
 }
