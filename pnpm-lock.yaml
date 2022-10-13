@@ -4,11 +4,13 @@ specifiers:
   dayjs: ^1.11.5
   guy: ^11.10.1
   moonriver: 1.1.2
+  readlines-ng: ^0.2.1
 
 dependencies:
   dayjs: 1.11.5
   guy: 11.10.1
   moonriver: 1.1.2
+  readlines-ng: 0.2.1
 
 packages:
 
@@ -91,4 +93,9 @@ packages:
 
   /multimix/5.0.0:
     resolution: {integrity: sha512-N9cdGSDDD7kxOV7R6e4iZqsHTZ4F4iiSDWqMcVqx4gEH6HBtRXav39Gj3fgT1YqvBcwPCQuf0Oa5R2cDaLWK8A==}
+    dev: false
+
+  /readlines-ng/0.2.1:
+    resolution: {integrity: sha512-FMHCLAuJawG6XsQvuJ77C1SZFcGujGqSktqeKOZrKeaEcezuFkimCeQfjHHRI0oP8u2TAk/ootVu5U0ka7v7uQ==}
+    engines: {node: '>=10.0.0'}
     dev: false

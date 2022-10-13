@@ -23,6 +23,7 @@
   "dependencies": {
     "dayjs": "^1.11.5",
     "guy": "^11.10.1",
-    "moonriver": "1.1.2"
+    "moonriver": "1.1.2",
+    "readlines-ng": "^0.2.1"
   }
 }
