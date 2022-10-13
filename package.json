@@ -21,7 +21,8 @@
   },
   "homepage": "https://github.com/loveencounterflow/lxu#readme",
   "dependencies": {
+    "dayjs": "^1.11.5",
     "guy": "^11.10.1",
-    "moonriver": "^1.1.1"
+    "moonriver": "1.1.2"
   }
 }

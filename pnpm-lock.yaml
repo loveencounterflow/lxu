@@ -1,12 +1,14 @@
 lockfileVersion: 5.4
 
 specifiers:
+  dayjs: ^1.11.5
   guy: ^11.10.1
-  moonriver: ^1.1.1
+  moonriver: 1.1.2
 
 dependencies:
+  dayjs: 1.11.5
   guy: 11.10.1
-  moonriver: 1.1.1
+  moonriver: 1.1.2
 
 packages:
 
@@ -22,6 +24,10 @@ packages:
     hasBin: true
     dependencies:
       jsx-number-format: 0.1.5
+    dev: false
+
+  /dayjs/1.11.5:
+    resolution: {integrity: sha512-CAdX5Q3YW3Gclyo5Vpqkgpj8fSdLQcRuzfX6mC6Phy0nfJ0eGYOeS7m4mt2plDWLAtA4TqTakvbboHvUxfe4iA==}
     dev: false
 
   /guy/11.10.1:
@@ -73,8 +79,8 @@ packages:
     resolution: {integrity: sha512-jJ1nvvQi6unW0WifjNPMIb64Byom0EXzSKWFYA++EpyjK3qv1J2pqeSoEJ61tGJoNG0GoNjPoeLYhxW16riZaA==}
     dev: false
 
-  /moonriver/1.1.1:
-    resolution: {integrity: sha512-ym4zurKT/E1bKU/+TaAjWQJkKzCXMBjtDalvhQby/xQ5IEOCfpZeEKCJf38tZwyuTVFu4NCxT5vjkWNYM7r0PA==}
+  /moonriver/1.1.2:
+    resolution: {integrity: sha512-On4vr+Laa7NWPslMNbWZmkZRIop/NDwbJZOg5m2qWdKVHzWp028LOxET3CvMeyp0IPVXY5tedj8A8dUe3l4Cww==}
     dependencies:
       cnd: 9.2.3
       guy: 4.1.1
